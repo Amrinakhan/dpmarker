@@ -4,6 +4,7 @@ import CartPersonal from "@/components/CartPersonal";
 import FooterOne from "@/components/FooterOne";
 import HeaderOne from "@/components/HeaderOne";
 import Preloader from "@/helper/Preloader";
+import { Suspense } from "react";
 
 export const metadata = {
   title: "Digital Market Place NEXT Js Template",
@@ -25,7 +26,9 @@ const page = () => {
       <BreadcrumbFive />
 
       {/* CartPersonal */}
-      <CartPersonal />
+      <Suspense fallback={<div>Loading...</div>}>
+        <CartPersonal />
+      </Suspense>
 
       {/* BrandSectionOne */}
       {/* <BrandSectionOne /> */}
