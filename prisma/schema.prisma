@@ -1,0 +1,68 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL") // Keep this in .env file
+}
+
+model User {
+  id            String          @id @default(uuid())
+  email         String          @unique
+  first_name    String
+  last_name     String
+  address       String?
+  created_at    DateTime        @default(now())
+  updated_at    DateTime        @updatedAt
+  redeemedCoupons RedeemedCoupon[]
+
+  @@map("users")
+}
+
+model Order {
+  id                Int      @id @default(autoincrement())
+  user_id           String?  @map("user_id") // Keep as is, not a direct Prisma relation
+  email             String
+  first_name        String
+  last_name         String
+  plan_name         String   @map("plan_name")
+  total_amount      Float    @map("total_amount")
+  payment_method    String?  @map("payment_method")
+  shipping_address  String?  @map("shipping_address")
+  agreed_to_terms   Boolean? @map("agreed_to_terms")
+  agreed_to_privacy Boolean? @map("agreed_to_privacy")
+  created_at        DateTime @default(now())
+
+  @@map("orders") // Exact match to your MySQL table name
+}
+
+model Subscription {
+  id          Int      @id @default(autoincrement())
+  subsc_title String   @map("subsc_title")
+  subsc_price Float    @map("subsc_price")
+  subsc_image String?  @map("subsc_image")
+
+  @@map("subscriptions")
+}
+
+model RedeemedCoupon {
+  id           Int      @id @default(autoincrement())
+  user_id      String
+  coupon_code  String
+  discount     Float    // Store as decimal (e.g., 0.20 for 20%)
+  redeemed_at  DateTime @default(now())
+  
+  // Relation to the new User table
+  user         User     @relation(fields: [user_id], references: [id])
+
+  @@map("redeemed_coupons")
+}
+
+// Optional: Example User model (if you need to link orders to users)
+// model User {
+//   id    String @id @default(uuid())
+//   // ... other user fields
+//   orders Order[]
+// }

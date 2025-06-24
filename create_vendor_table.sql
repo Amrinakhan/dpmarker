@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS vendor (
+    vendor_id INT AUTO_INCREMENT PRIMARY KEY,
+    vendor_title VARCHAR(255) NOT NULL,
+    vendor_description TEXT,
+    vendor_img VARCHAR(255),
+    vendor_logo VARCHAR(255),
+    email VARCHAR(255) NOT NULL,
+    phone VARCHAR(50),
+    address TEXT,
+    status ENUM('active', 'inactive', 'pending') DEFAULT 'pending',
+    commission_rate DECIMAL(5,2),
+    payment_method VARCHAR(50),
+    otp_code VARCHAR(50),
+    facebookLink VARCHAR(255),
+    whatsappLink VARCHAR(255),
+    twitterLink VARCHAR(255),
+    featured TINYINT(1) DEFAULT 0,
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+); 
