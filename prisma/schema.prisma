@@ -1,11 +1,7 @@
 generator client {
   provider      = "prisma-client-js"
   output        = "../src/generated/prisma"
-<<<<<<< HEAD
-  binaryTargets = ["node", "rhel-openssl-3.0.x"]
-=======
-  binaryTargets = ["native", "windows", "rhel-openssl-3.0.x"]
->>>>>>> bc65c0c (feat: generate prisma client for vercel)
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
 datasource db {
@@ -14,13 +10,13 @@ datasource db {
 }
 
 model User {
-  id            String          @id @default(uuid())
-  email         String          @unique
-  first_name    String
-  last_name     String
-  address       String?
-  created_at    DateTime        @default(now())
-  updated_at    DateTime        @updatedAt
+  id              String           @id @default(uuid())
+  email           String           @unique
+  first_name      String
+  last_name       String
+  address         String?
+  created_at      DateTime         @default(now())
+  updated_at      DateTime         @updatedAt
   redeemedCoupons RedeemedCoupon[]
 
   @@map("users")
@@ -40,7 +36,7 @@ model Order {
   agreed_to_privacy Boolean? @map("agreed_to_privacy")
   created_at        DateTime @default(now())
 
-  @@map("orders") // Exact match to your MySQL table name
+  @@map("orders")
 }
 
 model Subscription {
@@ -59,15 +55,7 @@ model RedeemedCoupon {
   discount     Float    // Store as decimal (e.g., 0.20 for 20%)
   redeemed_at  DateTime @default(now())
   
-  // Relation to the new User table
   user         User     @relation(fields: [user_id], references: [id])
 
   @@map("redeemed_coupons")
 }
-
-// Optional: Example User model (if you need to link orders to users)
-// model User {
-//   id    String @id @default(uuid())
-//   // ... other user fields
-//   orders Order[]
-// }
